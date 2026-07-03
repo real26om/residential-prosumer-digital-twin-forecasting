@@ -1,4 +1,4 @@
-# Residential Prosumer Forecasting and Anomaly Detection Thesis Project
+# A MONITORING-ORIENTED DIGITAL TWIN PIPELINE FOR DATA-DRIVEN PREDICTION OF RESIDENTIAL PROSUMER ENERGY PROFILES
 
 This GitHub-ready folder is a privacy-conscious export of the cleaned Candidate C research project. It keeps the reproducible code path and selected derived outputs while excluding raw Home Assistant exports, local model artifacts, cache folders, and manual-review archives.
 
