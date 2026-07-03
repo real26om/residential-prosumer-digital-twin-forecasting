@@ -1,0 +1,9 @@
+dataset,method,train_csv,val_RMSE,val_MAE,val_MAPE,n_features
+A1,target_transform_rf,A1_causal_demand_keep-imputed_demand-only_168_READY.csv,253.15263972478982,186.3715308266851,86.90720912595845,13
+A2,rf,A2_causal-fill_clean_demand-only_168_READY.csv,265.9784423366989,179.96105977853497,72.38105499291943,12
+B1,target_transform_rf,B1_interpolation_keep-imputed_demand-only_168_READY.csv,252.16059080935003,185.523669236152,86.52233585131451,13
+B2,rf,B2_interpolation_clean_demand-only_168_READY.csv,265.9784423366989,179.96105977853497,72.38105499291943,12
+A3,target_transform_rf,A3_causal-fill_keep-imputed_telemetry_168_READY.csv,225.33933412832621,153.91227248653377,69.37707161942808,19
+A4,telemetry_lags_rf,A4_causal-fill_clean-only_demand_telemetry_168_LAGS_READY.csv,464.2900405671986,304.5336044346473,145.64767806490028,24
+B3,target_transform_rf,B3_interpolation_keep-imputed_telemetry_168_READY.csv,223.44260973212968,151.34779607184748,68.24855355255231,19
+B4,telemetry_lags_rf,B4_interpolation_clean-only_demand_telemetry_168_LAGS_READY.csv,464.2900405671987,304.5336044346474,145.64767806490028,24

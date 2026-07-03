@@ -1,0 +1,9 @@
+dataset,method,train_csv,cv_RMSE_mean,cv_MAE_mean,n_features
+A1,rf,A1_causal_demand_keep-imputed_demand-only_168_READY.csv,418.8407956667792,303.99007922408845,13
+A2,rf,A2_causal-fill_clean_demand-only_168_READY.csv,431.08733643017115,309.62807116907834,12
+B1,rf,B1_interpolation_keep-imputed_demand-only_168_READY.csv,416.52706711250886,301.4205254397956,13
+B2,rf,B2_interpolation_clean_demand-only_168_READY.csv,431.08733643017115,309.62807116907834,12
+A3,rf,A3_causal-fill_keep-imputed_telemetry_168_READY.csv,441.0283343459845,333.8149027963035,19
+A4,rf,A4_causal-fill_clean-only_demand_telemetry_168_READY.csv,393.48668958094265,251.6305385815387,15
+B3,rf,B3_interpolation_keep-imputed_telemetry_168_READY.csv,438.2204220203197,329.92881144479185,19
+B4,rf,B4_interpolation_clean-only_demand_telemetry_168_READY.csv,393.48668958094265,251.6305385815387,15

@@ -1,0 +1,82 @@
+config:
+  site:
+    latitude_deg: 45.4968
+    longitude_deg: 9.2940
+    elevation_m: 0.0            # Intentional deterministic simplification; set to true site elevation ONLY if you want physical correctness locked.
+    ts_timezone: "UTC"
+
+  solar:
+    library: "pvlib"
+    library_version: "0.15.0"
+    solarposition_method: "nrel_numpy"
+    altitude_field: "apparent_elevation"          # LOCKED: this pvlib output field is the ONLY “sun altitude” variable
+    timestamp_for_hour_classification: "hour_midpoint"  # LOCKED: only midpoint is allowed; mapped in Prompt 1
+    night_altitude_threshold_deg: 0.0             # LOCKED: night iff altitude <= threshold
+
+  frozen_constants:
+    # General
+    SHORTGAPHOURS: 2
+    eps: 1.0
+    N_calibration_weeks: 8
+    calibration_block_size_weeks: 1
+    kmeans_random_state: 0
+
+    # PV cleaning
+    pv_noise_floor_w: 10
+    pv_daylight_margin_w: 10
+
+    # Imputation bounds (LOCKED; hours)
+    demand_ffill_max_h: 6
+    pool_ffill_max_h: 6
+    temp_ffill_max_h: 24
+    pv_ffill_max_h: 6   # used only for “pv ffill night-ok” policy
+
+    # Binning (locked)
+    gaplen_bin_edges_h: [0, 1, 2, 5, 13, 999999]
+    temp_bin_edges_c: [-10, 0, 5, 10, 15, 20, 25, 30, 35, 50]
+
+    # Pool kmeans fallback guardrails
+    pool_fallback_threshold_w: 100
+    pool_min_separation_w: 200
+
+    # Computed on 2025 and now frozen numeric values
+    pv_daylight_threshold_w: 10.0
+    pv_regime_edges_w: [10.0, 408.77184711100006, 1211.08981386]   # canonical regime edges
+    pv_q33_w: 408.77184711100006
+    pv_q66_w: 1211.08981386
+    pool_on_threshold_w: 276.6193722032569
+
+  schema_aliases:
+    materialize_both_versions: true
+    imputation_flag_pairs:
+      - {base: "flag_demand_imputed", new: "flag_demand_imputed_new"}
+      - {base: "flag_pv_imputed",     new: "flag_pv_imputed_new"}
+      - {base: "flag_pool_imputed",   new: "flag_pool_imputed_new"}
+      - {base: "flag_temp_imputed",   new: "flag_temp_imputed_new"}
+    flag_pv_imputed_definition: "flag_pv_imputed = 1 iff pv_imputed_any==1 else 0 (int 0/1, no NaNs); flag_pv_imputed_new identical"
+
+  model:
+    rf:
+      hyperparams_source: "tuned_on_2025_only_frozen"
+      hyperparams_mode: "per_dataset"
+      hyperparams_by_dataset:
+        A1: {n_estimators: 863, max_depth: 60, min_samples_split: 18, min_samples_leaf: 7, max_features: 0.5, bootstrap: false, random_state: 42, n_jobs: 1}
+        A2: {n_estimators: 456, max_depth: 10, min_samples_split: 10, min_samples_leaf: 13, max_features: 0.5, bootstrap: true,  random_state: 42, n_jobs: 1}
+        A3: {n_estimators: 456, max_depth: 10, min_samples_split: 10, min_samples_leaf: 13, max_features: 0.5, bootstrap: true,  random_state: 42, n_jobs: 1}
+        A4: {n_estimators: 430, max_depth: 60, min_samples_split: 25, min_samples_leaf: 8, max_features: 0.8, bootstrap: true,  random_state: 42, n_jobs: 1}
+        B1: {n_estimators: 863, max_depth: 60, min_samples_split: 18, min_samples_leaf: 7, max_features: 0.5, bootstrap: false, random_state: 42, n_jobs: 1}
+        B2: {n_estimators: 456, max_depth: 10, min_samples_split: 10, min_samples_leaf: 13, max_features: 0.5, bootstrap: true,  random_state: 42, n_jobs: 1}
+        B3: {n_estimators: 456, max_depth: 10, min_samples_split: 10, min_samples_leaf: 13, max_features: 0.5, bootstrap: true,  random_state: 42, n_jobs: 1}
+        B4: {n_estimators: 430, max_depth: 60, min_samples_split: 25, min_samples_leaf: 8, max_features: 0.8, bootstrap: true,  random_state: 42, n_jobs: 1}
+
+  features:
+    source: "frozen_rf_by_dataset.json (2025 tuned artifacts)"
+    feature_cols_by_dataset:
+      A1: ["day_of_week","demand_lag_168h","demand_lag_1h","demand_lag_24h","demand_w","flag_demand_imputed","flag_grid_exporting","hour","hour_cos","hour_sin","is_holiday_it","is_weekend","month"]
+      A2: ["day_of_week","demand_lag_168h","demand_lag_1h","demand_lag_24h","demand_w","flag_grid_exporting","hour","hour_cos","hour_sin","is_holiday_it","is_weekend","month"]
+      A3: ["day_of_week","demand_lag_168h","demand_lag_1h","demand_lag_24h","demand_w","flag_demand_imputed_new","flag_grid_exporting","flag_pool_imputed_new","flag_pv_imputed_new","flag_temp_imputed_new","hour","hour_cos","hour_sin","is_holiday_it","is_weekend","month","outdoor_temp_c","outdoor_temp_c_lag_168h","outdoor_temp_c_lag_1h","outdoor_temp_c_lag_24h","pool_w","pool_w_lag_168h","pool_w_lag_1h","pool_w_lag_24h","pv_w","pv_w_lag_168h","pv_w_lag_1h","pv_w_lag_24h"]
+      A4: ["day_of_week","demand_lag_168h","demand_lag_1h","demand_lag_24h","demand_w","flag_grid_exporting","hour","hour_cos","hour_sin","is_holiday_it","is_weekend","month","outdoor_temp_c","outdoor_temp_c_lag_168h","outdoor_temp_c_lag_1h","outdoor_temp_c_lag_24h","pool_w","pool_w_lag_168h","pool_w_lag_1h","pool_w_lag_24h","pv_w","pv_w_lag_168h","pv_w_lag_1h","pv_w_lag_24h"]
+      B1: ["day_of_week","demand_lag_168h","demand_lag_1h","demand_lag_24h","demand_w","flag_demand_imputed","flag_grid_exporting","hour","hour_cos","hour_sin","is_holiday_it","is_weekend","month"]
+      B2: ["day_of_week","demand_lag_168h","demand_lag_1h","demand_lag_24h","demand_w","flag_grid_exporting","hour","hour_cos","hour_sin","is_holiday_it","is_weekend","month"]
+      B3: ["day_of_week","demand_lag_168h","demand_lag_1h","demand_lag_24h","demand_w","flag_demand_imputed","flag_grid_exporting","flag_pool_imputed","flag_pv_imputed","flag_temp_imputed","hour","hour_cos","hour_sin","is_holiday_it","is_weekend","month","outdoor_temp_c","outdoor_temp_c_lag_168h","outdoor_temp_c_lag_1h","outdoor_temp_c_lag_24h","pool_w","pool_w_lag_168h","pool_w_lag_1h","pool_w_lag_24h","pv_w","pv_w_lag_168h","pv_w_lag_1h","pv_w_lag_24h"]
+      B4: ["day_of_week","demand_lag_168h","demand_lag_1h","demand_lag_24h","demand_w","flag_grid_exporting","hour","hour_cos","hour_sin","is_holiday_it","is_weekend","month","outdoor_temp_c","outdoor_temp_c_lag_168h","outdoor_temp_c_lag_1h","outdoor_temp_c_lag_24h","pool_w","pool_w_lag_168h","pool_w_lag_1h","pool_w_lag_24h","pv_w","pv_w_lag_168h","pv_w_lag_1h","pv_w_lag_24h"]

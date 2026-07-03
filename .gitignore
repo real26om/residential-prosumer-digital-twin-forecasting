@@ -1,0 +1,30 @@
+# Python caches
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+
+# Notebook checkpoints
+.ipynb_checkpoints/
+
+# Environments and secrets
+.venv/
+venv/
+.env
+.env.*
+
+# Local model artifacts
+*.joblib
+model_artifacts_local_not_for_github/
+
+# Private/raw data review areas
+data/private_raw/
+data/_privacy_review/
+
+# Archives and OS files
+*.zip
+*.7z
+*.rar
+.DS_Store
+Thumbs.db

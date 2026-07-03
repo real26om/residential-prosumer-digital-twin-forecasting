@@ -1,0 +1,9 @@
+split_id,dataset_id,pipeline,mode,n_rows_total,n_rows_train,n_rows_test
+roll_01,A1,A,keep-imputed,839,672,167
+roll_01,A2,A,clean-only,839,672,167
+roll_01,A3,A,keep-imputed,839,672,167
+roll_01,A4,A,clean-only,520,393,127
+roll_01,B1,B,keep-imputed,839,672,167
+roll_01,B2,B,clean-only,839,672,167
+roll_01,B3,B,keep-imputed,839,672,167
+roll_01,B4,B,clean-only,520,393,127

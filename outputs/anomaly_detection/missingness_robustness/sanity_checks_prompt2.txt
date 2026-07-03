@@ -1,0 +1,19 @@
+Prompt 2 sanity checks report (UTC): 2026-02-13T10:58:30Z
+datasets_root: C:\Users\Lernovo\Desktop\Model\datasets_by_split
+manifest: C:\Users\Lernovo\Desktop\Model\datasets_by_split\manifest_all_splits.csv
+checked_files: 32
+missing_files: 0
+errors: 0
+
+FAILURE COUNTS:
+  imputed_any_or_ok failures: 0
+  imputed_count_sum_ok failures: 0
+  clean_only_ok failures: 0
+  manifest_rows_match failures: 0
+
+EXAMPLE ROBUSTNESS CHECK (roll_04 / A2):
+ n_rows  sum_flag_demand_imputed  sum_flag_pv_imputed  sum_flag_pool_imputed  sum_flag_temp_imputed  sum_imputed_any
+   1326                        0                  218                      0                      1              219
+Interpretation:
+- A2 is demand-only clean-only, so flag_demand_imputed must be 0.
+- imputed_any can be >0 due to PV/pool/temp imputation (telemetry is not a feature in A2).

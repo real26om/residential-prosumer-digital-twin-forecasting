@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+title: "A Monitoring-Oriented Digital Twin Pipeline for Data-Driven Prediction of Residential Prosumer Energy Profiles"
+message: "If you use this project, please cite the thesis or related paper when available."
+type: software
+authors:
+- family-names: "Rahmani"
+  given-names: "Amin"
+- family-names: "Moradian"
+  given-names: "Mahsa"
+- family-names: "Lupica Spagnolo"
+  given-names: "Sonia"
+- family-names: "McArthur"
+  given-names: "J.J."
+date-released: "2026-05-05"
+version: "0.1.0"
+license: "MIT"

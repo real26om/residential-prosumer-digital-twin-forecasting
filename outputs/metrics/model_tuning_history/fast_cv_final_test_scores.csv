@@ -1,0 +1,9 @@
+dataset,chosen_method,chosen_train_csv,n_features,test_RMSE,test_MAE,test_MAPE
+A1,rf,A1_causal_demand_keep-imputed_demand-only_168_READY.csv,13,615.1413278327185,381.9203124222675,156.3367825864201
+A2,rf,A2_causal-fill_clean_demand-only_168_READY.csv,12,669.7992807843816,447.38924897087946,175.6276571250924
+B1,rf,B1_interpolation_keep-imputed_demand-only_168_READY.csv,13,614.5263348897336,381.89458214122044,186.63426526596
+B2,rf,B2_interpolation_clean_demand-only_168_READY.csv,12,669.7992807843816,447.38924897087946,175.6276571250924
+A3,rf,A3_causal-fill_keep-imputed_telemetry_168_READY.csv,19,610.8161151572355,396.6281049897891,211.44788118496254
+A4,rf,A4_causal-fill_clean-only_demand_telemetry_168_READY.csv,15,900.3810543992743,692.7978281934318,555.6853883137721
+B3,rf,B3_interpolation_keep-imputed_telemetry_168_READY.csv,19,612.7604104080802,396.9374991013062,226.225710047988
+B4,rf,B4_interpolation_clean-only_demand_telemetry_168_READY.csv,15,900.3810543992744,692.7978281934317,555.6853883137721
